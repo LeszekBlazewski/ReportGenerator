@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ReportGenerator.ViewModel;
+using System;
 using System.Windows.Forms;
 
 namespace ReportGenerator
@@ -19,7 +17,8 @@ namespace ReportGenerator
 
             
             MainView view = new MainView();
-            MainMenuController controller = new MainMenuController(view);
+            OrderViewModel viewModel = new OrderViewModel();
+            MainMenuController controller = new MainMenuController(view, viewModel);
 
             controller.InitializeController();
 

@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ReportGenerator.Utilities;
+using System;
+using System.Transactions;
 using System.Windows.Forms;
+using ReportGenerator.ViewModel;
 
 namespace ReportGenerator
 {
     class MainMenuController
     {
         private readonly MainView view;
+       
+        private OrderViewModel viewModel;
 
-        public MainMenuController(MainView view)
+        public MainMenuController(MainView view, OrderViewModel viewModel)
         {
             this.view = view;
+            this.viewModel = viewModel;
         }
 
         public void RunMainMenuView()

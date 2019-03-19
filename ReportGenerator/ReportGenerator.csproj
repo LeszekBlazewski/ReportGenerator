@@ -52,6 +52,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MainMenuController.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrdersDatabase.cs" />
+    <Compile Include="Utilities\Parsers\CSVParser.cs" />
+    <Compile Include="Utilities\Parsers\JSONParser.cs" />
+    <Compile Include="Utilities\Parsers\Parser.cs" />
+    <Compile Include="Utilities\Parsers\ParserFactory.cs" />
+    <Compile Include="Utilities\Parsers\XMLParser.cs" />
+    <Compile Include="Utilities\ReportBuilder.cs" />
+    <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
     </Compile>
