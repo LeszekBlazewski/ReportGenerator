@@ -16,7 +16,14 @@ namespace ReportGenerator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainView());
+
+            
+            MainView view = new MainView();
+            MainMenuController controller = new MainMenuController(view);
+
+            controller.InitializeController();
+
+            controller.RunMainMenuView();
         }
     }
 }
