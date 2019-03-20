@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportGenerator.Utilities;
 using ReportGenerator.ViewModel;
+using System;
 
 namespace ReportGenerator.UnitTests
 {
@@ -83,22 +84,30 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            // Add two orders to database
-            for (int i = 0; i < 2; i++)
+            // Add three orders to database
+            for (int i = 1; i < 3; i++)
             {
                 viewModel.AddNewOrder(new Order
                 {
                     ClientId = "id" + i,
-                    RequestId = i + 100,
+                    RequestId = i,
                     Name = "Roll",
                     Quantity = i * 12,
                     Price = 12.2m,
                 });
             }
+            // Add order with same request id to database
+            viewModel.AddNewOrder(new Order
+            {
+                ClientId = "id",
+                RequestId = 1,
+                Name = "Roll",
+                Quantity = 10,
+                Price = 10.0m,
+            });
 
             //Action
-            var orders = viewModel.GetAllOrders();
-
+            var orders = viewModel.GetAllOrders(); 
             //Assert
             Assert.IsTrue(2 == orders.Count);
         }

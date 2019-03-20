@@ -7,13 +7,8 @@ namespace ReportGenerator.ViewModel
 {
     class OrderViewModel
     {
-        private readonly OrdersDatabase database;
+        private readonly OrdersDatabase database = new OrdersDatabase();
 
-        public OrderViewModel()
-        {
-            database = new OrdersDatabase();
-        }
-        
         // ** THIS FUNCTION MIGHT BE USED TO INSERT ROW INTO DATABASE DIRECTLY FROM THE APP NOT FROM PARSERS**
         public void AddNewOrder(Order order)
         {
@@ -24,7 +19,7 @@ namespace ReportGenerator.ViewModel
             }
         }
 
-        public void AddNewOrder(List<Order> orders)
+        public void AddNewOrders(List<Order> orders)
         {
             using (TransactionScope tran = new TransactionScope())
             {
@@ -33,6 +28,7 @@ namespace ReportGenerator.ViewModel
             }
         }
 
+        //TODO: REPAIR
         public List<Order> GetAllOrdersForSpecificClient(string clientId)
         {
             var orders = database.Orders.ToList();
@@ -41,10 +37,50 @@ namespace ReportGenerator.ViewModel
             return clientOrders;
         }
 
-        public List<Order> GetAllOrders()
+        public List<dynamic> GetAllOrders()
         {
-            var orders = database.Orders.ToList();
-            return orders;
+            var query = (from order in database.Orders
+                        select new { order.RequestId, Value = order.Price * order.Quantity })
+                        .GroupBy(order => order.RequestId).ToList<dynamic>();
+            return query;
+        }
+
+        public int GetNumberOfOrders()
+        {
+            return database.Orders.Select(order => order.RequestId).Distinct().Count();
+        }
+
+        public int GetNumberOfOrdersForSpecificClient(string clientId)
+        {
+            return database.Orders.Where(order => order.ClientId == clientId).Select(order => order.RequestId).Distinct().Count();
+        }
+
+        //TODO: CHECK IF THIS WORKS
+        public decimal TotalPriceOfOrders()
+        {
+            return database.Orders.Sum(order => (order.Price * order.Quantity));
+        }
+
+        //TODO: CHECK IF THIS WORKS
+        public decimal TotalPriceOfOrdersForSpecificClient(string clientId)
+        {
+            return database.Orders.Where(order => order.ClientId == clientId).Sum(order => (order.Price * order.Quantity));
+        }
+
+        //TODO: FIX
+        public decimal AveragePriceOfOrder()
+        {
+            return database.Orders.Average(order => order.Price);
+        }
+        //TODO: FIX
+        public decimal AveragePriceOfOrderOfSpecificClient(string clientId)
+        {
+            return database.Orders.Where(order => order.ClientId == clientId).Average(order => order.Price);
+        }
+
+        public void NumberOfRequestsGroupedByName()
+        {
+
         }
     }
 }

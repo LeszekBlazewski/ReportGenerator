@@ -1,6 +1,4 @@
-﻿using ReportGenerator.Utilities;
-using System;
-using System.Transactions;
+﻿using System;
 using System.Windows.Forms;
 using ReportGenerator.ViewModel;
 using System.IO;
@@ -32,12 +30,7 @@ namespace ReportGenerator
 
         private void DisplayFileDialog(object sender, EventArgs e)
         {
-            string AppPath = Path.GetDirectoryName(Application.ExecutablePath);
-            view.GetOpenFileDialogLoadOrders().InitialDirectory = AppPath;
-            if (view.GetOpenFileDialogLoadOrders().ShowDialog() == DialogResult.OK)
-            {
-                string selectedFileName = view.GetOpenFileDialogLoadOrders().FileName;
-            }
+
         }
 
         private void GenerateReport(object sender, EventArgs e)

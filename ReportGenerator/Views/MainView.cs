@@ -1,5 +1,6 @@
 ﻿using ReportGenerator.Utilities;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ReportGenerator
@@ -11,6 +12,8 @@ namespace ReportGenerator
             InitializeComponent();
             comboBoxReportType.DataSource = Enum.GetValues(typeof(ReportType));
             comboBoxReportType.SelectedItem = ReportType.Number_of_orderds;
+            string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+            openFileDialogLoadOrders.InitialDirectory = appPath;
         }
 
         public Button GetButtonLoadFile()
@@ -23,9 +26,19 @@ namespace ReportGenerator
             return buttonGenerateReport;
         }
 
-        public OpenFileDialog GetOpenFileDialogLoadOrders()
+        public Button GetButtonSaveReportToFile()
         {
-            return openFileDialogLoadOrders;
+            return buttonSaveReportToFile;
+        }
+
+        public string GetFilenameOfOrdersToOpen()
+        {
+            string filePath = null;
+            if (openFileDialogLoadOrders.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openFileDialogLoadOrders.FileName;
+            }
+            return filePath;
         }
 
         public void AppendLogText(string text)
@@ -38,9 +51,5 @@ namespace ReportGenerator
             return textBoxFileName.Text;
         }
 
-        public Button GetButtonSaveReportToFile()
-        {
-            return buttonSaveReportToFile;
-        }
     }
 }

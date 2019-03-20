@@ -31,13 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.textBoxLogs = new System.Windows.Forms.TextBox();
             this.dataGridViewReports = new System.Windows.Forms.DataGridView();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clientIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.requestIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.orderBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.labelReport = new System.Windows.Forms.Label();
             this.labelLogs = new System.Windows.Forms.Label();
             this.labelLoadFile = new System.Windows.Forms.Label();
@@ -49,6 +42,13 @@
             this.textBoxFileName = new System.Windows.Forms.TextBox();
             this.buttonSaveReportToFile = new System.Windows.Forms.Button();
             this.labelFileName = new System.Windows.Forms.Label();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clientIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.requestIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.orderBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewReports)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.orderBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -71,6 +71,9 @@
             // 
             this.dataGridViewReports.AllowUserToAddRows = false;
             this.dataGridViewReports.AllowUserToDeleteRows = false;
+            this.dataGridViewReports.AllowUserToOrderColumns = true;
+            this.dataGridViewReports.AllowUserToResizeColumns = false;
+            this.dataGridViewReports.AllowUserToResizeRows = false;
             this.dataGridViewReports.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.dataGridViewReports.AutoGenerateColumns = false;
             this.dataGridViewReports.BackgroundColor = System.Drawing.SystemColors.Control;
@@ -83,58 +86,13 @@
             this.quantityDataGridViewTextBoxColumn,
             this.priceDataGridViewTextBoxColumn});
             this.dataGridViewReports.DataSource = this.orderBindingSource;
-            this.dataGridViewReports.Location = new System.Drawing.Point(398, 76);
+            this.dataGridViewReports.Location = new System.Drawing.Point(381, 76);
             this.dataGridViewReports.Name = "dataGridViewReports";
             this.dataGridViewReports.ReadOnly = true;
             this.dataGridViewReports.RowHeadersVisible = false;
-            this.dataGridViewReports.Size = new System.Drawing.Size(604, 259);
+            this.dataGridViewReports.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridViewReports.Size = new System.Drawing.Size(621, 259);
             this.dataGridViewReports.TabIndex = 1;
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // clientIdDataGridViewTextBoxColumn
-            // 
-            this.clientIdDataGridViewTextBoxColumn.DataPropertyName = "ClientId";
-            this.clientIdDataGridViewTextBoxColumn.HeaderText = "ClientId";
-            this.clientIdDataGridViewTextBoxColumn.Name = "clientIdDataGridViewTextBoxColumn";
-            this.clientIdDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // requestIdDataGridViewTextBoxColumn
-            // 
-            this.requestIdDataGridViewTextBoxColumn.DataPropertyName = "RequestId";
-            this.requestIdDataGridViewTextBoxColumn.HeaderText = "RequestId";
-            this.requestIdDataGridViewTextBoxColumn.Name = "requestIdDataGridViewTextBoxColumn";
-            this.requestIdDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // quantityDataGridViewTextBoxColumn
-            // 
-            this.quantityDataGridViewTextBoxColumn.DataPropertyName = "Quantity";
-            this.quantityDataGridViewTextBoxColumn.HeaderText = "Quantity";
-            this.quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
-            this.quantityDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // priceDataGridViewTextBoxColumn
-            // 
-            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
-            this.priceDataGridViewTextBoxColumn.HeaderText = "Price";
-            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
-            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // orderBindingSource
-            // 
-            this.orderBindingSource.DataSource = typeof(ReportGenerator.Utilities.Order);
             // 
             // labelReport
             // 
@@ -242,6 +200,53 @@
             this.labelFileName.TabIndex = 11;
             this.labelFileName.Text = "File name to save:";
             // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // clientIdDataGridViewTextBoxColumn
+            // 
+            this.clientIdDataGridViewTextBoxColumn.DataPropertyName = "ClientId";
+            this.clientIdDataGridViewTextBoxColumn.HeaderText = "ClientId";
+            this.clientIdDataGridViewTextBoxColumn.Name = "clientIdDataGridViewTextBoxColumn";
+            this.clientIdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // requestIdDataGridViewTextBoxColumn
+            // 
+            this.requestIdDataGridViewTextBoxColumn.DataPropertyName = "RequestId";
+            this.requestIdDataGridViewTextBoxColumn.HeaderText = "RequestId";
+            this.requestIdDataGridViewTextBoxColumn.Name = "requestIdDataGridViewTextBoxColumn";
+            this.requestIdDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // quantityDataGridViewTextBoxColumn
+            // 
+            this.quantityDataGridViewTextBoxColumn.DataPropertyName = "Quantity";
+            this.quantityDataGridViewTextBoxColumn.HeaderText = "Quantity";
+            this.quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
+            this.quantityDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // priceDataGridViewTextBoxColumn
+            // 
+            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
+            this.priceDataGridViewTextBoxColumn.HeaderText = "Price";
+            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
+            this.priceDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // orderBindingSource
+            // 
+            this.orderBindingSource.DataSource = typeof(ReportGenerator.Utilities.Order);
+            this.orderBindingSource.Sort = "";
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,12 +279,6 @@
         private System.Windows.Forms.DataGridView dataGridViewReports;
         private System.Windows.Forms.Label labelReport;
         private System.Windows.Forms.Label labelLogs;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clientIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn requestIdDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn quantityDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource orderBindingSource;
         private System.Windows.Forms.Label labelLoadFile;
         private System.Windows.Forms.Button buttonLoadFile;
@@ -290,6 +289,12 @@
         private System.Windows.Forms.TextBox textBoxFileName;
         private System.Windows.Forms.Button buttonSaveReportToFile;
         private System.Windows.Forms.Label labelFileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clientIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn requestIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn quantityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
     }
 }
 
