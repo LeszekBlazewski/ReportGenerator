@@ -40,5 +40,11 @@ namespace ReportGenerator.ViewModel
 
             return clientOrders;
         }
+
+        public List<Order> GetAllOrders()
+        {
+            var orders = database.Orders.ToList();
+            return orders;
+        }
     }
 }

@@ -28,9 +28,19 @@ namespace ReportGenerator
             return openFileDialogLoadOrders;
         }
 
-        public void AppendLogText(String text)
+        public void AppendLogText(string text)
         {
             textBoxLogs.AppendText(text + "\n");
+        }
+
+        public string GetFilenameToSaveReport()
+        {
+            return textBoxFileName.Text;
+        }
+
+        public Button GetButtonSaveReportToFile()
+        {
+            return buttonSaveReportToFile;
         }
     }
 }

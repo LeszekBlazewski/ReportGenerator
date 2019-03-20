@@ -29,7 +29,7 @@ namespace ReportGenerator.UnitTests
         }
 
         [TestMethod]
-        public void CreateNewUnvalidOrderClientIdToLong_ReportIsNotAdded_ObjectIsNotInserted()
+        public void CreateNewUnvalidOrderClientIdToLong_OrderIsNotAdded_ObjectIsNotInserted()
         {
             //Arrange
             var viewModel = new OrderViewModel();
@@ -42,8 +42,78 @@ namespace ReportGenerator.UnitTests
                 Price = 12.2m,
             };
 
-            //Action
+            //Action && Assert
             Assert.ThrowsException<NMemory.Exceptions.ConstraintException>(() => viewModel.AddNewOrder(order));
+        }
+
+        [TestMethod]
+        public void CreateNewUnvalidOrderNameToLong_OrderIsNotAdded_ObjectIsNotInserted()
+        {
+            //Arrange
+            var viewModel = new OrderViewModel();
+            string orderName = new string('a', 256);
+            Order order = new Order
+            {
+                ClientId = "Client",
+                RequestId = 1243465,
+                Name = orderName,
+                Quantity = 1,
+                Price = 12.2m,
+            };
+
+            //Action && Assert
+            Assert.ThrowsException<NMemory.Exceptions.ConstraintException>(() => viewModel.AddNewOrder(order));
+        }
+
+        [TestMethod]
+        public void FetchAllOrders_NoOrderdsInDatabase_NoneOrdersAreReturned()
+        {
+            //Arrange
+            var viewModel = new OrderViewModel();
+
+            //Action
+            var orders = viewModel.GetAllOrders();
+
+            //Assert
+            Assert.IsTrue(0 == orders.Count);
+        }
+
+        [TestMethod]
+        public void FetchAllOrders_OrdersAreInDatabase_AllOrdersAreReturned()
+        {
+            //Arrange
+            var viewModel = new OrderViewModel();
+            // Add two orders to database
+            for (int i = 0; i < 2; i++)
+            {
+                viewModel.AddNewOrder(new Order
+                {
+                    ClientId = "id" + i,
+                    RequestId = i + 100,
+                    Name = "Roll",
+                    Quantity = i * 12,
+                    Price = 12.2m,
+                });
+            }
+
+            //Action
+            var orders = viewModel.GetAllOrders();
+
+            //Assert
+            Assert.IsTrue(2 == orders.Count);
+        }
+
+        [TestMethod]
+        public void FetchAllOrdersForSpecificClient_OrdersNotExistInDatabase_NoOrdersAreReturned()
+        {
+            //Arrange
+            var viewModel = new OrderViewModel();
+ 
+            //Action
+            var clientOrders = viewModel.GetAllOrdersForSpecificClient("cli");
+
+            //Assert
+            Assert.IsTrue(0  == clientOrders.Count);
         }
     }
 }
