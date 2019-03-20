@@ -3,6 +3,7 @@ using System;
 using System.Transactions;
 using System.Windows.Forms;
 using ReportGenerator.ViewModel;
+using System.IO;
 
 namespace ReportGenerator
 {
@@ -25,12 +26,23 @@ namespace ReportGenerator
 
         public void InitializeController()
         {
-            //view.GetButtonClickMe().Click += DisplayMessage;
+            view.GetButtonLoadFile().Click += DisplayFileDialog;
+            view.GetButtonGenerateReport().Click += GenerateReport;
         }
 
-        private void DisplayMessage(object sender, EventArgs e)
+        private void DisplayFileDialog(object sender, EventArgs e)
         {
-            MessageBox.Show("Oh noes!", "My Application", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            string AppPath = Path.GetDirectoryName(Application.ExecutablePath);
+            view.GetOpenFileDialogLoadOrders().InitialDirectory = AppPath;
+            if (view.GetOpenFileDialogLoadOrders().ShowDialog() == DialogResult.OK)
+            {
+                string selectedFileName = view.GetOpenFileDialogLoadOrders().FileName;
+            }
+        }
+
+        private void GenerateReport(object sender, EventArgs e)
+        {
+
         }
     }
 }

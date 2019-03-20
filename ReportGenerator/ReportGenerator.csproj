@@ -60,6 +60,7 @@
     <Compile Include="Utilities\Parsers\ParserFactory.cs" />
     <Compile Include="Utilities\Parsers\XMLParser.cs" />
     <Compile Include="Utilities\ReportBuilder.cs" />
+    <Compile Include="Utilities\ReportTypes.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
@@ -82,6 +83,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ReportGenerator.Utilities.Order.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
