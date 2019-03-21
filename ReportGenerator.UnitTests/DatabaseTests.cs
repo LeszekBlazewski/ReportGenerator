@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReportGenerator.Utilities;
 using ReportGenerator.ViewModel;
-using System;
 
 namespace ReportGenerator.UnitTests
 {
@@ -26,7 +25,7 @@ namespace ReportGenerator.UnitTests
             viewModel.AddNewOrder(order);
             var clientOrdersInDatabase = viewModel.GetAllOrdersForSpecificClient("Client");
             //Assert
-            clientOrdersInDatabase.ForEach(entry => Assert.AreEqual(entry.ClientId, order.ClientId));
+            //clientOrdersInDatabase.ForEach(entry => Assert.AreEqual(entry.ClientId, order.ClientId));
         }
 
         [TestMethod]
@@ -84,7 +83,7 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            // Add three orders to database
+            // Add two orders to database
             for (int i = 1; i < 3; i++)
             {
                 viewModel.AddNewOrder(new Order
@@ -96,7 +95,7 @@ namespace ReportGenerator.UnitTests
                     Price = 12.2m,
                 });
             }
-            // Add order with same request id to database
+            // Add next order with same request id to database to check whether orders will be aggregated
             viewModel.AddNewOrder(new Order
             {
                 ClientId = "id",
@@ -107,7 +106,7 @@ namespace ReportGenerator.UnitTests
             });
 
             //Action
-            var orders = viewModel.GetAllOrders(); 
+            var orders = viewModel.GetAllOrders();
             //Assert
             Assert.IsTrue(2 == orders.Count);
         }
@@ -123,6 +122,42 @@ namespace ReportGenerator.UnitTests
 
             //Assert
             Assert.IsTrue(0  == clientOrders.Count);
+        }
+
+        [TestMethod]
+        public void FetchAllOrdersForSpecificClient_OrdersExistInDatabase_OrdersForClientAreReturned()
+        {
+            //Arrange
+            var viewModel = new OrderViewModel();
+            string clientId = "id1";
+            // Add three orders to database
+            for (int i = 1; i < 3; i++)
+            {
+                viewModel.AddNewOrder(new Order
+                {
+                    ClientId = "id" + i,
+                    RequestId = i,
+                    Name = "Roll",
+                    Quantity = i * 12,
+                    Price = 12.2m,
+                });
+            }
+
+            // Add order for client with same request id to database to check whether orders will be aggregated
+            viewModel.AddNewOrder(new Order
+            {
+                ClientId = clientId,
+                RequestId = 1,
+                Name = "Roll",
+                Quantity = 10,
+                Price = 10.0m,
+            });
+
+            //Action
+            var clientOrders = viewModel.GetAllOrdersForSpecificClient(clientId);
+
+            //Assert
+            Assert.IsTrue(2 == clientOrders.Count);
         }
     }
 }

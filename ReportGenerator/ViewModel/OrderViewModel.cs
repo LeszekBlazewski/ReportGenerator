@@ -28,21 +28,24 @@ namespace ReportGenerator.ViewModel
             }
         }
 
-        //TODO: REPAIR
         public List<Order> GetAllOrdersForSpecificClient(string clientId)
         {
-            var orders = database.Orders.ToList();
-            List<Order> clientOrders = orders.Where(order => order.ClientId == clientId).ToList();
+            var clientOrders = database.Orders.Select(x => new Order { RequestId = x.RequestId, ClientId = clientId, Price = (x.Price * x.Quantity) })
+                                      .Where(z => z.ClientId == clientId)
+                                      .GroupBy(order => order.RequestId)
+                                      .Select(g => new Order { RequestId = g.Key, Price = g.Sum(x => x.Price) })
+                                      .ToList();
 
             return clientOrders;
         }
 
-        public List<dynamic> GetAllOrders()
+        public List<Order> GetAllOrders()
         {
-            var query = (from order in database.Orders
-                        select new { order.RequestId, Value = order.Price * order.Quantity })
-                        .GroupBy(order => order.RequestId).ToList<dynamic>();
-            return query;
+           var orders = database.Orders.Select(x => new Order { RequestId = x.RequestId, Price = (x.Price * x.Quantity) })
+                                      .GroupBy(order => order.RequestId)
+                                      .Select(g => new Order { RequestId = g.Key, Price = g.Sum(x => x.Price) })
+                                      .ToList();
+           return orders;
         }
 
         public int GetNumberOfOrders()
@@ -55,7 +58,7 @@ namespace ReportGenerator.ViewModel
             return database.Orders.Where(order => order.ClientId == clientId).Select(order => order.RequestId).Distinct().Count();
         }
 
-        //TODO: CHECK IF THIS WORKS
+        //TODO: CHECK IF THIS WORKS 
         public decimal TotalPriceOfOrders()
         {
             return database.Orders.Sum(order => (order.Price * order.Quantity));
