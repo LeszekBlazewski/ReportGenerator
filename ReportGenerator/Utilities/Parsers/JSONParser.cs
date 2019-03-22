@@ -1,13 +1,27 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace ReportGenerator.Utilities.Parsers
 {
-    class JSONParser
+    class JSONParser:Parser
     {
-        // reads data from json file and creates new rows which will be returned in order to be added into db.
+        private RootObject requests;
+
+        public override List<Order> GetOrdersFromFile(string filePath)
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string json = reader.ReadToEnd();
+                requests = JsonConvert.DeserializeObject<RootObject>(json);
+            }
+
+            return orders;
+        }
+
+        private void FilterRequests()
+        {
+            requests.requests
+        }
     }
 }

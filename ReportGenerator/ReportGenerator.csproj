@@ -36,6 +36,9 @@
     <Reference Include="Equin.ApplicationFramework.BindingListView, Version=1.4.5222.35545, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Equin.ApplicationFramework.BindingListView.1.4.5222.35545\lib\net40-Client\Equin.ApplicationFramework.BindingListView.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NMemory, Version=3.0.0.0, Culture=neutral, PublicKeyToken=afc61983f100d280, processorArchitecture=MSIL">
       <HintPath>..\packages\NMemory.3.1.0\lib\net45\NMemory.dll</HintPath>
     </Reference>
@@ -58,12 +61,15 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrdersDatabase.cs" />
     <Compile Include="Utilities\Parsers\CSVParser.cs" />
+    <Compile Include="Utilities\Parsers\IParser.cs" />
     <Compile Include="Utilities\Parsers\JSONParser.cs" />
     <Compile Include="Utilities\Parsers\Parser.cs" />
     <Compile Include="Utilities\Parsers\ParserFactory.cs" />
     <Compile Include="Utilities\Parsers\XMLParser.cs" />
     <Compile Include="Utilities\OrderBuilder.cs" />
     <Compile Include="Utilities\ReportTypes.cs" />
+    <Compile Include="Utilities\Request.cs" />
+    <Compile Include="Utilities\RootObject.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>

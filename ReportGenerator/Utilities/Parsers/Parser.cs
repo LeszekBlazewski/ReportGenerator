@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ReportGenerator.Utilities.Parsers
 {
-    abstract class Parser
+    abstract class Parser : IParser
     {
-        // basic schema for parser objects, defines common methods
+        protected List<Order> orders = new List<Order>();
+
+        public abstract List<Order> GetOrdersFromFile(string filePath);
+      
+        // 1. CLientID can NOT contain any spaces AND can't be longer than 6 characters
+        // 2. Name can NOT be longer than 255 characters
+        protected void FilterOrders()
+        {
+            // maybe usefult not sure now 
+        }
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ReportGenerator.Utilities.Parsers
 {
-    class XMLParser
+    class XMLParser : Parser
     {
         // reads data from XML file and creates new rows which will be returned in order to be added into db.
+        public override List<Order> GetOrdersFromFile(string filePath)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

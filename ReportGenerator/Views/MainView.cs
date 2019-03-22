@@ -49,7 +49,6 @@ namespace ReportGenerator
         public string GetFilenameToSaveReport()
         {
             return textBoxFileName.Text;
-        }
-
+        }      
     }
 }
