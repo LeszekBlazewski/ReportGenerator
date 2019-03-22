@@ -12,18 +12,12 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            Order order = new Order
-            {
-                ClientId = "Client",
-                RequestId = 124,
-                Name = "Roll",
-                Quantity = 1,
-                Price = 12.2m,
-            };
+            Order order = OrderCreator.CreateOrder("Client", 124, "Roll", 1, 12.2m);
 
             //Action
             viewModel.AddNewOrder(order);
             int numberOfOrders = viewModel.GetNumberOfOrders();
+
             //Assert
             Assert.AreEqual(1, numberOfOrders);
         }
@@ -33,14 +27,9 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            Order order = new Order
-            {
-                ClientId = "Client123",// client id can only by 6 signs
-                RequestId = 1243465,
-                Name = "Roll",
-                Quantity = 1,
-                Price = 12.2m,
-            };
+            string unvalidCLientId = "Client123";   // client_id can obly be 6 characters long
+            Order order = OrderCreator.CreateOrder(unvalidCLientId, 1243465, "Roll", 1, 12.2m); //pass CLientId longer than 6 characters
+           
 
             //Action && Assert
             Assert.ThrowsException<NMemory.Exceptions.ConstraintException>(() => viewModel.AddNewOrder(order));
@@ -51,15 +40,9 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            string orderName = new string('a', 256);
-            Order order = new Order
-            {
-                ClientId = "Client",
-                RequestId = 1243465,
-                Name = orderName,
-                Quantity = 1,
-                Price = 12.2m,
-            };
+            string orderName = new string('a', 256);    // create string which contains 256 'a' characters
+            Order order = OrderCreator.CreateOrder("Client", 1243465, orderName, 1, 12.2m); //pass orderName longer tahn 255 chars
+
 
             //Action && Assert
             Assert.ThrowsException<NMemory.Exceptions.ConstraintException>(() => viewModel.AddNewOrder(order));
@@ -83,27 +66,10 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id" + i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i * 12,
-                    Price = 12.2m,
-                });
-            }
-            // Add next order with same request id to database to check whether orders will be aggregated
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id",
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 10,
-                Price = 10.0m,
-            });
+            // create three orders where 2 refere to same request id 
+            var ordersToAdd = OrderCreator.CreateOrders_TwoOrdersWithSameReuquestId();
+            // add them to database
+            viewModel.AddNewOrders(ordersToAdd);
 
             //Action
             var orders = viewModel.GetAllOrders();
@@ -121,7 +87,7 @@ namespace ReportGenerator.UnitTests
             var clientOrders = viewModel.GetAllOrdersForSpecificClient("cli");
 
             //Assert
-            Assert.IsTrue(0  == clientOrders.Count);
+            Assert.AreEqual(0,clientOrders.Count);
         }
 
         [TestMethod]
@@ -130,34 +96,14 @@ namespace ReportGenerator.UnitTests
             //Arrange
             var viewModel = new OrderViewModel();
             string clientId = "id1";
-            // Add three orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id" + i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i * 12,
-                    Price = 12.2m,
-                });
-            }
-
-            // Add order for client with same request id to database to check whether orders will be aggregated
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = clientId,
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 10,
-                Price = 10.0m,
-            });
+            var orderForSpecificCLientToAdd = OrderCreator.CreateOrders_ForSpecificCLient_TwoOrdersWithSameRequestId(clientId);
+            viewModel.AddNewOrders(orderForSpecificCLientToAdd);
 
             //Action
             var clientOrders = viewModel.GetAllOrdersForSpecificClient(clientId);
 
             //Assert
-            Assert.IsTrue(1 == clientOrders.Count);
+            Assert.AreEqual(1,clientOrders.Count);
         }
 
         [TestMethod]
@@ -165,34 +111,14 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            // Add three orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id" + i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i * 12,
-                    Price = 12.2m,
-                });
-            }
-
-            // Add next order with same request id to database to check whether orders will be aggregated
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id",
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 10,
-                Price = 10.0m,
-            });
+            var ordersToAdd = OrderCreator.CreateOrders_TwoOrdersWithSameReuquestId();
+            viewModel.AddNewOrders(ordersToAdd);
 
             //Action
             int numberOfOrders = viewModel.GetNumberOfOrders();
 
             //Assert
-            Assert.IsTrue(2 == numberOfOrders);
+            Assert.AreEqual(2,numberOfOrders);
         }
 
         [TestMethod]
@@ -200,35 +126,17 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            string clientId = "id";
-            // Add three orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = clientId,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i * 12,
-                    Price = 12.2m,
-                });
-            }
-
-            // Add next order with same request id and client id to database to check whether orders will be aggregated
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = clientId,
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 12,
-                Price = 12.2m,
-            });
+            string clientId = "id1";
+            var ordersToAdd = OrderCreator.CreateOrders_ForSpecificCLient_TwoOrdersWithSameRequestId(clientId);
+            viewModel.AddNewOrders(ordersToAdd);
 
             //Action
             int numberOfOrdersForClient = viewModel.GetNumberOfOrdersForSpecificClient(clientId);
 
             //Assert
-            Assert.IsTrue(2 == numberOfOrdersForClient);
+            // There are three orders in database, but only two refere to client id ("id1"), and those two orders
+            // refere to same request_id so in fact client has only one order 
+            Assert.AreEqual(1,numberOfOrdersForClient);
         }
 
         [TestMethod]
@@ -236,31 +144,13 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id"+i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i,
-                    Price = 1.5m + i,
-                });
-            }
-            // add order with same request id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id",
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 1,
-                Price = 1.5m,
-            });
-
+            var ordersToAdd = OrderCreator.CreateOrders_TwoOrdersWithSameReuquestId();
+            viewModel.AddNewOrders(ordersToAdd);
+            decimal result = 539.2m;       // calculated based on the orders added into database
+                                           // first request => 12 * 12.2m = 146.4, second request => 24 * 12.2 = 292.8, third request => 10*10 = 100
+                                           // sum = 539.2
             //Action
             decimal totalPriceOfOrders = viewModel.GetTotalPriceOfOrders();
-            decimal result = 11m;
             //Assert
             Assert.AreEqual(result, totalPriceOfOrders);
         }
@@ -269,31 +159,13 @@ namespace ReportGenerator.UnitTests
         public void GetTotalPriceOfOrdersForSpecificClient_OrdersExistInDatabase_NumberOfOrdersIsReturned()
         {
             //Arrange
+            string clientId = "id1";
             var viewModel = new OrderViewModel();
-            decimal result = 4m;
-
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id" + i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i,
-                    Price = 1.5m + i,
-                });
-            }
-
-            // add order with same request id  && client id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id"+1,
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 1,
-                Price = 1.5m,
-            });
+            var ordersToAdd = OrderCreator.CreateOrders_ForSpecificCLient_TwoOrdersWithSameRequestId(clientId);
+            viewModel.AddNewOrders(ordersToAdd);
+            decimal result = 246.4m;      // calculated based on the orders added into database for specific client
+                                         // first request => 12 * 12.2 + 10 * 10 = 246.4 because first and second order have same request_id
+                                        // sum = 246.4
 
 
             //Action
@@ -308,33 +180,11 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            decimal average = 5.5m;
-
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id" + i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i,
-                    Price = 1.5m + i,
-                });
-            }
-
-            // add order with same request id  && client id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id" + 1,
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 1,
-                Price = 1.5m,
-            });
-
-
-            //Action
+            var ordersToAdd = OrderCreator.CreateOrders_TwoOrdersWithSameReuquestId();
+            viewModel.AddNewOrders(ordersToAdd);
+            decimal average = 269.6m;  // calculated based on the orders added into database
+                                       // first request => 12 * 12.2 + 10 * 10 = 246.4, second request => 24 * 12.2 = 292.8
+                                       // Average = 269.6
             decimal averagePrice = viewModel.GetAveragePriceOfOrder();
 
             //Assert
@@ -346,40 +196,15 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-            decimal average = 2.75m;
-
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id" + i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i,
-                    Price = 1.5m + i,
-                });
-            }
-
-            // add order with same request id  && client id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id" + 1,
-                RequestId = 1,
-                Name = "Roll",
-                Quantity = 1,
-                Price = 1.5m,
-            });
-
-            // add order with same request id  && client id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id" + 1,
-                RequestId = 2,
-                Name = "Roll",
-                Quantity = 1,
-                Price = 1.5m,
-            });
+            string clientId = "id1";
+            var ordersToAdd = OrderCreator.CreateOrders_ForSpecificCLient_TwoOrdersWithSameRequestId(clientId);
+            var orderWithDifferentRequestIdForSameClient = OrderCreator.CreateOrder(clientId, 2, "Roll", 2, 4m);
+            viewModel.AddNewOrder(orderWithDifferentRequestIdForSameClient);
+            viewModel.AddNewOrders(ordersToAdd);
+            decimal average = 127.2m;    // calculated based on the orders added into database for specific client
+                                        // first request => 12 * 12.2 + 10 * 10 = 246.4 because first and second order have same request_id
+                                        // second request => 2 * 4 = 8
+                                        // average = 127.2
 
             //Action
             decimal averagePrice = viewModel.GetAveragePriceOfOrderOfSpecificClient("id1");
@@ -394,40 +219,10 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-           
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id" + i,
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i,
-                    Price = 1.5m + i,
-                });
-            }
+            var ordersToAdd = OrderCreator.CreateOrdersForGroupByNameTest();
+            viewModel.AddNewOrders(ordersToAdd);
 
-            // add order with same request id  && client id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id" + 1,
-                RequestId = 1,
-                Name = "Stuck",
-                Quantity = 1,
-                Price = 1.5m,
-            });
-
-            // add order with same request id  && client id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id" + 1,
-                RequestId = 2,
-                Name = "Car",
-                Quantity = 1,
-                Price = 1.5m,
-            });
-
+            //Action
             var groupedOrders = viewModel.GetNumberOfOrdersGroupedByName();
 
             //Assert
@@ -440,29 +235,9 @@ namespace ReportGenerator.UnitTests
         {
             //Arrange
             var viewModel = new OrderViewModel();
-
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id1",
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i,
-                    Price = 1.5m + i,
-                });
-            }
-
-            // add order with same request id  && client id to check if data is aggregated correctly
-            viewModel.AddNewOrder(new Order
-            {
-                ClientId = "id1",
-                RequestId = 1,
-                Name = "Car",
-                Quantity = 1,
-                Price = 1.5m,
-            });
+            var ordersToAdd = OrderCreator.CreateOrdersForGroupByNameTest();
+            viewModel.AddNewOrders(ordersToAdd);
+           
 
             var groupedOrdersForClient = viewModel.GetNumberOfOrdersGroupedByNameForSpecificClient("id1");
 
@@ -478,20 +253,10 @@ namespace ReportGenerator.UnitTests
             var viewModel = new OrderViewModel();
             decimal lowerBound = 1.5m;
             decimal upperBound = 5.7m;
+            var ordersToAdd = OrderCreator.CreateOrders_TwoOrdersWithSameReuquestId();
 
-            // Add two orders to database
-            for (int i = 1; i < 3; i++)
-            {
-                viewModel.AddNewOrder(new Order
-                {
-                    ClientId = "id1",
-                    RequestId = i,
-                    Name = "Roll",
-                    Quantity = i,
-                    Price = 1.5m + i,
-                });
-            }
-
+           
+            //Action
             var ordersInGivenRange = viewModel.GetOrdersInGivenRange(lowerBound, upperBound);
 
             // Assert

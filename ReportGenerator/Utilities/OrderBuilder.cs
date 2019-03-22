@@ -1,6 +1,6 @@
 ﻿namespace ReportGenerator.Utilities
 {
-    class ReportBuilder
+    class OrderBuilder
     {
         private Order _report;
 
