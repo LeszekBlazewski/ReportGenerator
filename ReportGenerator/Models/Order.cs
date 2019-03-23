@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace ReportGenerator.Utilities
 {
     public class Order

@@ -1,11 +1,12 @@
-﻿namespace ReportGenerator.Utilities
+﻿using System.Collections.Generic;
+
+namespace ReportGenerator.Utilities
 {
+    /// <summary>
+    /// Contains the list of orders read from json file.
+    /// </summary>
     public class Request
     {
-        public string clientId { get; set; }
-        public string requestId { get; set; }
-        public string name { get; set; }
-        public string quantity { get; set; }
-        public string price { get; set; }
+        public List<Order> requests { get; set; }
     }
 }

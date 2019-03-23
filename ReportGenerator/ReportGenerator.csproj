@@ -39,6 +39,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json.Schema, Version=3.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Schema.3.0.10\lib\net45\Newtonsoft.Json.Schema.dll</HintPath>
+    </Reference>
     <Reference Include="NMemory, Version=3.0.0.0, Culture=neutral, PublicKeyToken=afc61983f100d280, processorArchitecture=MSIL">
       <HintPath>..\packages\NMemory.3.1.0\lib\net45\NMemory.dll</HintPath>
     </Reference>
@@ -69,7 +72,6 @@
     <Compile Include="Utilities\OrderBuilder.cs" />
     <Compile Include="Utilities\ReportTypes.cs" />
     <Compile Include="Utilities\Request.cs" />
-    <Compile Include="Utilities\RootObject.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
@@ -102,6 +104,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Utilities\json-OrderSchema.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
