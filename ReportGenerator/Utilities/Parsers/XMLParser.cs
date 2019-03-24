@@ -40,7 +40,7 @@ namespace ReportGenerator.Utilities.Parsers
             // Set the validation settings.
             XmlReaderSettings settings = new XmlReaderSettings();
             XmlSchemaSet schemas = new XmlSchemaSet();
-            schemas.Add(null, Directory.GetCurrentDirectory() + "\\Utilities\\RequestSchema.xsd");
+            schemas.Add(null, Directory.GetCurrentDirectory() + "\\Properties\\xml_Schema.xsd");
             settings.Schemas = schemas;
             settings.ValidationType = ValidationType.Schema;
             settings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;

@@ -21,7 +21,7 @@ namespace ReportGenerator.Utilities.Parsers
 
         public void ValidateJsonSchema(string json)
         {
-            JSchema schema = JSchema.Parse(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Utilities\\json-OrderSchema.json"));  // json-OrderSchema.json is always copied durning build to output directory
+            JSchema schema = JSchema.Parse(Properties.Resources.json_OrderSchema);
 
             JObject requests = JObject.Parse(json);
 

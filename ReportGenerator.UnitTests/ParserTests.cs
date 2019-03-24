@@ -2,7 +2,6 @@
 using ReportGenerator.Utilities;
 using ReportGenerator.Utilities.Parsers;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ReportGenerator.UnitTests
 {
@@ -79,13 +78,14 @@ namespace ReportGenerator.UnitTests
         }
 
         [TestMethod]
+        [DeploymentItem(".\\Properties\\CorrectXmlData.xml","Data")]
+        [DeploymentItem(".\\Properties\\xml_Schema.xsd","Properties")]
         public void GetRequestsFromXMLFile_AllRequestsAreValid_TwoRequestAreReturned()
         {
             //Arrange
             var parserFactory = new ParserFactory();
             var xmlParser = parserFactory.CreateParser(ParserFactory.ParserSort.XMLParser);
-            string xmlFilePath = Directory.GetCurrentDirectory() + "\\Utilities\\Data.xml";
-
+            string xmlFilePath = @"Data\CorrectXmlData.xml";
             //Action
              List<Order> orders = xmlParser.GetOrdersFromFile(xmlFilePath);
              IList<string> errorMessages = ((XMLParser)xmlParser).GetErrorMessages();
@@ -96,13 +96,15 @@ namespace ReportGenerator.UnitTests
          }
 
         [TestMethod]
+        [DeploymentItem(".\\Properties\\CorrectCsvData.csv", "Data")]
         public void GetRequestsFromCSVFile_AllRequestsAreValid_TwoRequestAreReturned()
         {
             //Arrange
             var parserFactory = new ParserFactory();
             var csvParser = parserFactory.CreateParser(ParserFactory.ParserSort.CSVParser);
+            string csvFilePath = @"Data\CorrectCsvData.csv";
             //Action
-            List<Order> orders = csvParser.GetOrdersFromFile(Directory.GetCurrentDirectory() + "\\Utilities\\Data.csv");
+            List<Order> orders = csvParser.GetOrdersFromFile(csvFilePath);
             IList<string> errorMessages = ((CSVParser)csvParser).GetErrorMessages();
 
             //Assert

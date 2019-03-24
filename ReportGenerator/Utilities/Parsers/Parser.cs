@@ -4,13 +4,13 @@ namespace ReportGenerator.Utilities.Parsers
 {
     abstract class Parser : IParser
     {
-        protected List<Order> orders = new List<Order>();
-
         public List<Order> GetOrders() => orders;
 
-        protected List<string> errorMessages = new List<string>();
-
         public List<string> GetErrorMessages() => errorMessages;
+
+        protected List<Order> orders = new List<Order>();
+
+        protected List<string> errorMessages = new List<string>();
 
         public abstract List<Order> GetOrdersFromFile(string filePath);
       

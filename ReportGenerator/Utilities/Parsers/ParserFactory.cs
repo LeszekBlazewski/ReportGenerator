@@ -2,7 +2,7 @@
 {
     class ParserFactory
     {
-        // based on parameter returns one of the parsers - XML, JSON, CSV
+        // based on parameter returns one of the parsers object - XML, JSON, CSV
 
         public enum ParserSort
         {
