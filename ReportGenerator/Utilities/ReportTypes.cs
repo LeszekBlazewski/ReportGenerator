@@ -6,7 +6,7 @@
         Number_of_orders_for_client,
         Total_cost_of_orders,
         Total_cost_of_orders_for_client,
-        List_of_all_reports,
+        List_of_all_orders,
         List_of_orders_for_client,
         Average_order_price,
         Average_order_price_for_client,

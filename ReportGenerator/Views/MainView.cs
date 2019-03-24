@@ -3,12 +3,19 @@ using ReportGenerator.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace ReportGenerator
 {
     public partial class MainView : Form
     {
+        private decimal lowerBound,upperBound;
+
+        public decimal GetLowerBound() => lowerBound;
+
+        public decimal GetUpperBound() => upperBound;
+
         public MainView()
         {
             InitializeComponent();
@@ -62,6 +69,36 @@ namespace ReportGenerator
             dataGridViewReports.DataSource = ordersToDisplay;
         }
 
+        public bool ValidateClientID(string clienId)
+        {
+            var clientIdRegex = new Regex(@"^[\p{L}0-9]{1,6}$");
+
+            if (!clientIdRegex.IsMatch(clienId))
+                return false;
+
+            return true;
+        }
+
+        public bool ValidateDecimalBounds()
+        {
+            if (!decimal.TryParse(textBoxLowerPriceInRange.Text, out lowerBound) || !decimal.TryParse(textBoxUpperPriceInRange.Text, out upperBound))
+            {
+                MessageBox.Show("Please input a valid price range !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
+        private void ButtonClearErrorLogs_Click(object sender, EventArgs e)
+        {
+            textBoxErrorLogs.Text = "";
+        }
+
+        private void ButtonClearReportsLog_Click(object sender, EventArgs e)
+        {
+            textBoxReportsResult.Text = "";
+        }
+
         public Button GetButtonLoadFile()
         {
             return buttonLoadFile;
@@ -79,24 +116,6 @@ namespace ReportGenerator
             return textBoxClientId.Text;
         }
 
-        public decimal GetLowerBound() // TODO MAYBE FIX THIS
-        {
-            if(!decimal.TryParse(textBoxLowerPriceInRange.Text, out decimal result))
-            {
-                MessageBox.Show("Please input a valid number !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            return result;
-        }
-
-        public decimal GetUpperBound() // TODO MAYBE FIX THIS
-        {
-            if (!decimal.TryParse(textBoxLowerPriceInRange.Text, out decimal result))
-            {
-                MessageBox.Show("Please input a valid number !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            return result;
-        }
-
         public Button GetButtonGenerateReport()
         {
             return buttonGenerateReport;
@@ -105,16 +124,6 @@ namespace ReportGenerator
         public Button GetButtonClearOrdersInDatabase()
         {
             return buttonClearOrders;
-        }
-
-        private void ButtonClearErrorLogs_Click(object sender, EventArgs e)
-        {
-            textBoxErrorLogs.Text = "";
-        }
-
-        private void ButtonClearReportsLog_Click(object sender, EventArgs e)
-        {
-            textBoxReportsResult.Text = "";
         }
     }
 }

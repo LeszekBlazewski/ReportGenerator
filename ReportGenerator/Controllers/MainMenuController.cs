@@ -32,6 +32,7 @@ namespace ReportGenerator
             // assign methods which are run durning interaction with GUI
             view.GetButtonLoadFile().Click += LoadOrdersFromFiles;
             view.GetButtonGenerateReport().Click += GenerateReport;
+            view.GetButtonClearOrdersInDatabase().Click += ClearDataBase;
 
             // Initialize parsers
             ParserFactory parserFactory = new ParserFactory();
@@ -96,142 +97,206 @@ namespace ReportGenerator
         {
             // get report type from view
             ReportType reportType = view.GetReportTypeToGenerate();
+            // get clientID from view
+            string clientId = view.GetClientID();
+
+            ReportResult result = ReportResult.Operation_successful;
 
             switch (reportType)
             {
                 case ReportType.Number_of_orders:
-                    GenerateReportNumberOfOrders();
+                    result = GenerateReportNumberOfOrders();
                     break;
                 case ReportType.Number_of_orders_for_client:
-                    GenerateReportTotalCostOfOrders();
+                    result = GenerateReportsNumberOfOrdersForClient(clientId);
                     break;
                 case ReportType.Total_cost_of_orders:
-                    GenerateReportTotalCostOfOrders();
+                    result = GenerateReportTotalCostOfOrders();
                     break;
                 case ReportType.Total_cost_of_orders_for_client:
-                    GenerateReportTotalCostOfOrdersForCLient();
+                    result = GenerateReportTotalCostOfOrdersForCLient(clientId);
                     break;
-                case ReportType.List_of_all_reports:
-                    GenerateReportListOfAllReports();
+                case ReportType.List_of_all_orders:
+                    result = GenerateReportListOfAllReports();
                     break;
                 case ReportType.List_of_orders_for_client:
-                    GenerateReportListOfOrdersForCLient();
+                    result = GenerateReportListOfOrdersForCLient(clientId);
                     break;
                 case ReportType.Average_order_price:
-                    GenerateReportAverageOrderdPrice();
+                    result = GenerateReportAverageOrderdPrice();
                     break;
                 case ReportType.Average_order_price_for_client:
-                    GenerateReportAverageOrderdPriceForClient();
+                    result = GenerateReportAverageOrderdPriceForClient(clientId);
                     break;
                 case ReportType.Number_of_orders_grouped_by_name:
-                    GenerateReportOrdersGroupedByName();
+                    result = GenerateReportOrdersGroupedByName();
                     break;
                 case ReportType.Number_of_orders_grouped_by_name_for_client:
-                    GenerateReportOrdersGroupedByNameForCLient();
+                    result = GenerateReportOrdersGroupedByNameForCLient(clientId);
                     break;
                 case ReportType.Orders_in_specified_price_range:
-                    GenerateReportOrderInSpecificPriceRange();
+                    result = GenerateReportOrderInSpecificPriceRange();
                     break;
                 case ReportType.Show_raw_orders_in_database:
-                    PullRawRequestsFromDatabase();
+                    result = PullRawRequestsFromDatabase();
+                    break;
+            }
+
+            switch (result)
+            {
+                case ReportResult.Operation_successful:
+                    view.AppendErrorToLogs("Report generated successfuly !");
+                    break;
+                case ReportResult.Client_Id_wrong:
+                    view.AppendErrorToLogs("Please check provided clientId !");
+                    break;
+                case ReportResult.Price_Bounds_incorrect:
+                    view.AppendErrorToLogs("Please check provided price bounds !");
                     break;
             }
         }
 
-        private void GenerateReportNumberOfOrders()
+        private ReportResult GenerateReportNumberOfOrders()
         {
             int ordersQuantity = viewModel.GetNumberOfOrders();
             view.AppendReportResultToLog("Number of orders for current data set in database: " + ordersQuantity);
+            return ReportResult.Operation_successful;
         }
 
-        private void GenerateReportsNumberOfOrdersForClient()
+        private ReportResult GenerateReportsNumberOfOrdersForClient(string clientId)
         {
-            // get clientID from view
-            string clientId = view.GetClientID();
-            int ordersQuantity = viewModel.GetNumberOfOrdersForSpecificClient(clientId);
-            view.AppendReportResultToLog("Number of orders for client with id: " + clientId + " equals: " + ordersQuantity);
+            // validate clientID
+            bool isClientIdValid = view.ValidateClientID(clientId);
+
+            if(isClientIdValid)
+            {
+                int ordersQuantity = viewModel.GetNumberOfOrdersForSpecificClient(clientId);
+                view.AppendReportResultToLog("Number of orders for client with id: " + clientId + " equals: " + ordersQuantity);
+                return ReportResult.Operation_successful;
+            }
+            return ReportResult.Client_Id_wrong;
         }
 
-        private void GenerateReportTotalCostOfOrders()
+        private ReportResult GenerateReportTotalCostOfOrders()
         {
             decimal totalPriceOfOrders = viewModel.GetTotalPriceOfOrders();
             view.AppendReportResultToLog("Total price of orders stored in database: " + totalPriceOfOrders);
+            return ReportResult.Operation_successful;
         }
 
-        private void GenerateReportTotalCostOfOrdersForCLient()
+        private ReportResult GenerateReportTotalCostOfOrdersForCLient(string clientId)
         {
-            // get clientID from view
-            string clientId = view.GetClientID();
-            decimal totalPriceOfOrdersForCLient = viewModel.GetTotalPriceOfOrdersForSpecificClient(clientId);
-            view.AppendReportResultToLog("Total price of orders for client with id: " + clientId + " equals: " + totalPriceOfOrdersForCLient);
+            // validate clientID
+            bool isClientIdValid = view.ValidateClientID(clientId);
+
+            if(isClientIdValid)
+            {
+                decimal totalPriceOfOrdersForCLient = viewModel.GetTotalPriceOfOrdersForSpecificClient(clientId);
+                view.AppendReportResultToLog("Total price of orders for client with id: " + clientId + " equals: " + totalPriceOfOrdersForCLient);
+                return ReportResult.Operation_successful;
+            }
+            return ReportResult.Client_Id_wrong;
         }
 
-        private void GenerateReportListOfAllReports()
+        private ReportResult GenerateReportListOfAllReports()
         {
             List<Order> orders = viewModel.GetAllOrders();
             view.UpdateDataGriedView(orders);
             view.AppendReportResultToLog("List of all orders for current loaded files has been displayed in the table above");
+            return ReportResult.Operation_successful;
         }
 
-        private void GenerateReportListOfOrdersForCLient()
+        private ReportResult GenerateReportListOfOrdersForCLient(string clientId)
         {
-            // get clientID from view
-            string clientId = view.GetClientID();
+            bool isClientIdValid = view.ValidateClientID(clientId);
 
-            List<Order> orders = viewModel.GetAllOrdersForSpecificClient(clientId);
-            view.UpdateDataGriedView(orders);
-            view.AppendReportResultToLog("List of all orders for client with id: " + clientId + " for current loaded files has been displayed in the table above");
+            if (isClientIdValid)
+            {
+                List<Order> orders = viewModel.GetAllOrdersForSpecificClient(clientId);
+                view.UpdateDataGriedView(orders);
+                view.AppendReportResultToLog("List of all orders for client with id: " + clientId + " for current loaded files has been displayed in the table above");
+                return ReportResult.Operation_successful;
+            }
+            return ReportResult.Client_Id_wrong;
         }
 
-        private void GenerateReportAverageOrderdPrice()
+        private ReportResult GenerateReportAverageOrderdPrice()
         {
             decimal averageOrderPrice = viewModel.GetAveragePriceOfOrder();
             view.AppendReportResultToLog("Average price of order stored in database: " + averageOrderPrice);
+            return ReportResult.Operation_successful;
         }
 
-        private void GenerateReportAverageOrderdPriceForClient()
+        private ReportResult GenerateReportAverageOrderdPriceForClient(string clientId)
         {
-            // get clientID from view
-            string clientId = view.GetClientID();
+            bool isClientIdValid = view.ValidateClientID(clientId);
 
-            decimal averageOrderPriceForCLient = viewModel.GetAveragePriceOfOrderOfSpecificClient(clientId);
-            view.AppendReportResultToLog("Average price of order for client with id: " + clientId + " equals " + averageOrderPriceForCLient);
+            if (isClientIdValid)
+            {
+                decimal averageOrderPriceForCLient = viewModel.GetAveragePriceOfOrderOfSpecificClient(clientId);
+                view.AppendReportResultToLog("Average price of order for client with id: " + clientId + " equals " + averageOrderPriceForCLient);
+                return ReportResult.Operation_successful;
+            }
+            return ReportResult.Client_Id_wrong;
         }
 
-        private void GenerateReportOrdersGroupedByName()
+        private ReportResult GenerateReportOrdersGroupedByName()
         {
             List<Order> orders = viewModel.GetNumberOfOrdersGroupedByName();
             view.UpdateDataGriedView(orders);
             view.AppendReportResultToLog("List of orders grouped by name for current loaded files has been displayed in the table above");
+            return ReportResult.Operation_successful;
         }
 
-        private void GenerateReportOrdersGroupedByNameForCLient()
+        private ReportResult GenerateReportOrdersGroupedByNameForCLient(string clientId)
         {
-            // get clientID from view
-            string clientId = view.GetClientID();
+            bool isClientIdValid = view.ValidateClientID(clientId);
 
-            List<Order> orders = viewModel.GetNumberOfOrdersGroupedByNameForSpecificClient(clientId);
-            view.UpdateDataGriedView(orders);
-            view.AppendReportResultToLog("List of orders grouped by name for client with id: " + clientId + "has been displayed in the table above");
+            if (isClientIdValid)
+            {
+                List<Order> orders = viewModel.GetNumberOfOrdersGroupedByNameForSpecificClient(clientId);
+                view.UpdateDataGriedView(orders);
+                view.AppendReportResultToLog("List of orders grouped by name for client with id: " + clientId + "has been displayed in the table above");
+                return ReportResult.Operation_successful;
+            }
+            return ReportResult.Client_Id_wrong;
         }
 
-        private void GenerateReportOrderInSpecificPriceRange()
+        private ReportResult GenerateReportOrderInSpecificPriceRange()
         {
-            decimal lowerBound = view.GetLowerBound();
-            decimal upperBound = view.GetUpperBound();
+            bool arePriceBoundsCorrect = view.ValidateDecimalBounds();
 
-            List<Order> orders = viewModel.GetOrdersInGivenRange(lowerBound, upperBound);
+            if(arePriceBoundsCorrect)
+            {
+                decimal lowerBound = view.GetLowerBound();
+                decimal upperBound = view.GetUpperBound();
 
-            view.UpdateDataGriedView(orders);
-            view.AppendReportResultToLog("List of orders in price range: " + lowerBound + "-" + upperBound + " has been displayed in the table above");
+                List<Order> orders = viewModel.GetOrdersInGivenRange(lowerBound, upperBound);
+
+                view.UpdateDataGriedView(orders);
+                view.AppendReportResultToLog("List of orders in price range: " + lowerBound + "-" + upperBound + " has been displayed in the table above");
+                return ReportResult.Operation_successful;
+            }
+            return ReportResult.Price_Bounds_incorrect;
         }
 
-        private void PullRawRequestsFromDatabase()
+        private ReportResult PullRawRequestsFromDatabase()
         {
             List<Order> orders = viewModel.GetAllRequests();
 
             view.UpdateDataGriedView(orders);
             view.AppendReportResultToLog("Request list of current files has been displayed in the table above");
+            return ReportResult.Operation_successful;
         }
+
+        private void ClearDataBase(object sender, EventArgs e)
+        {
+            // delete all records from database 
+            viewModel.EmptyDatabase();
+            // update view with empty list to display
+            List<Order> emptyOrderList = new List<Order>();
+            view.UpdateDataGriedView(emptyOrderList);
+        }
+
     }
 }
