@@ -9,8 +9,6 @@ namespace ReportGenerator.ViewModel
     {
         private readonly OrdersDatabase database = new OrdersDatabase();
 
-        //TODO: ** THIS FUNCTION MIGHT BE USED TO INSERT ROW INTO DATABASE DIRECTLY FROM THE APP NOT FROM PARSERS**
-        // ALSO used for testing purpouses 
         public void AddNewOrder(Order order)
         {
             using (TransactionScope tran = new TransactionScope())
@@ -42,7 +40,7 @@ namespace ReportGenerator.ViewModel
         public List<Order> GetAllOrdersForSpecificClient(string clientId)
         {
             var clientOrders = database.Orders
-                                      .Select(x => new Order { RequestId = x.RequestId, ClientId = x.ClientId.TrimEnd(), Price = (x.Price * x.Quantity) })
+                                      .Select(x => new Order { RequestId = x.RequestId, ClientId = x.ClientId, Price = (x.Price * x.Quantity) })
                                       .Where(z => z.ClientId == clientId)
                                       .GroupBy(order => order.RequestId)
                                       .Select(g => new Order { RequestId = g.Key, Price = g.Sum(x => x.Price) })
@@ -62,7 +60,7 @@ namespace ReportGenerator.ViewModel
         public int GetNumberOfOrdersForSpecificClient(string clientId)
         {
             return database.Orders
-                                 .Select(x => new Order { RequestId = x.RequestId, ClientId = x.ClientId.TrimEnd() })
+                                 .Select(x => new Order { RequestId = x.RequestId, ClientId = x.ClientId })
                                  .Where(z => z.ClientId == clientId)
                                  .GroupBy(order => order.RequestId)
                                  .Select(g => g.Key)
@@ -81,7 +79,7 @@ namespace ReportGenerator.ViewModel
         public decimal GetTotalPriceOfOrdersForSpecificClient(string clientId)
         {
             var totalPriceOfOrdersForClient = database.Orders
-                                                             .Select(x => new Order { RequestId = x.RequestId,ClientId = x.ClientId.TrimEnd(), Price = (x.Price * x.Quantity)})
+                                                             .Select(x => new Order { RequestId = x.RequestId,ClientId = x.ClientId, Price = (x.Price * x.Quantity)})
                                                              .Where(z => z.ClientId == clientId)
                                                              .GroupBy(order => order.RequestId)
                                                              .Sum(x => x.Sum(y => y.Price));
@@ -103,7 +101,7 @@ namespace ReportGenerator.ViewModel
         public decimal GetAveragePriceOfOrderOfSpecificClient(string clientId)
         {
             decimal averagePriceOfOrder = database.Orders
-                                                       .Select(x => new Order { RequestId = x.RequestId, ClientId = x.ClientId.TrimEnd(), Price = (x.Price * x.Quantity) })
+                                                       .Select(x => new Order { RequestId = x.RequestId, ClientId = x.ClientId, Price = (x.Price * x.Quantity) })
                                                        .Where(order => order.ClientId == clientId)
                                                        .GroupBy(order => order.RequestId)
                                                        .Average(x => x.Sum(y => y.Price));
@@ -113,7 +111,7 @@ namespace ReportGenerator.ViewModel
         public List<Order> GetNumberOfOrdersGroupedByName()
         {
             var orders = database.Orders
-                                        .Select(x => new Order { RequestId = x.RequestId, Name = x.Name.TrimEnd(), Quantity = x.Quantity })
+                                        .Select(x => new Order { RequestId = x.RequestId, Name = x.Name, Quantity = x.Quantity })
                                         .GroupBy(order => order.Name )
                                         .Select(g => new Order { Name = g.Key, Quantity = g.Sum(z => z.Quantity) }) 
                                         .ToList();
@@ -124,7 +122,7 @@ namespace ReportGenerator.ViewModel
         public List<Order> GetNumberOfOrdersGroupedByNameForSpecificClient(string clientId)
         {
             var clientOrders = database.Orders
-                                       .Select(x => new Order { RequestId = x.RequestId, Name = x.Name.TrimEnd(), Quantity = x.Quantity, ClientId = x.ClientId.TrimEnd() })
+                                       .Select(x => new Order { RequestId = x.RequestId, Name = x.Name, Quantity = x.Quantity, ClientId = x.ClientId })
                                        .Where(z => z.ClientId == clientId)
                                        .GroupBy(order => order.Name)
                                        .Select(g => new Order { Name = g.Key, Quantity = g.Sum(z => z.Quantity) })
@@ -143,6 +141,11 @@ namespace ReportGenerator.ViewModel
                                                             .ToList();
 
             return ordersInGivenPriceInterval;
+        }
+
+        public List<Order> GetAllRequests()
+        {
+            return database.Orders.ToList();
         }
     }
 }

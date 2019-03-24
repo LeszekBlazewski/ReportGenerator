@@ -84,6 +84,7 @@
     <Compile Include="Controllers\MainMenuController.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrdersDatabase.cs" />
+    <Compile Include="Utilities\FileType.cs" />
     <Compile Include="Utilities\Parsers\CSVParser.cs" />
     <Compile Include="Utilities\Parsers\IParser.cs" />
     <Compile Include="Utilities\Parsers\JSONParser.cs" />

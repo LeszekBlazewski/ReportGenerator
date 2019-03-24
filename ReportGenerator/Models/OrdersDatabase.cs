@@ -15,14 +15,11 @@ namespace ReportGenerator.Utilities
             var orders = Tables.Create(x => x.Id, new IdentitySpecification<Order>(s => s.Id,1,1));
 
             // Constrains referring not nullable fields.
+            // There are no length restricions because they are validated during parsing process
             orders.Contraints.Add(new NotNullableConstraint<Order, string>(x => x.ClientId));
             orders.Contraints.Add(new NotNullableConstraint<Order, long>(x => x.RequestId));
             orders.Contraints.Add(new NotNullableConstraint<Order, string>(x => x.Name));
             orders.Contraints.Add(new NotNullableConstraint<Order, decimal>(x => x.Price));
-
-            // Constrains referring data types and length of them.
-            orders.Contraints.Add(new NCharConstraint<Order>(x => x.ClientId, 6));
-            orders.Contraints.Add(new NCharConstraint<Order>(x => x.Name, 255));
 
             Orders = orders;
         }

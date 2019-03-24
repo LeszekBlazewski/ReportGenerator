@@ -23,32 +23,6 @@ namespace ReportGenerator.UnitTests
         }
 
         [TestMethod]
-        public void CreateNewUnvalidOrderClientIdToLong_OrderIsNotAdded_ObjectIsNotInserted()
-        {
-            //Arrange
-            var viewModel = new OrderViewModel();
-            string unvalidCLientId = "Client123";   // client_id can obly be 6 characters long
-            Order order = OrderCreator.CreateOrder(unvalidCLientId, 1243465, "Roll", 1, 12.2m); //pass CLientId longer than 6 characters
-           
-
-            //Action && Assert
-            Assert.ThrowsException<NMemory.Exceptions.ConstraintException>(() => viewModel.AddNewOrder(order));
-        }
-
-        [TestMethod]
-        public void CreateNewUnvalidOrderNameToLong_OrderIsNotAdded_ObjectIsNotInserted()
-        {
-            //Arrange
-            var viewModel = new OrderViewModel();
-            string orderName = new string('a', 256);    // create string which contains 256 'a' characters
-            Order order = OrderCreator.CreateOrder("Client", 1243465, orderName, 1, 12.2m); //pass orderName longer tahn 255 chars
-
-
-            //Action && Assert
-            Assert.ThrowsException<NMemory.Exceptions.ConstraintException>(() => viewModel.AddNewOrder(order));
-        }
-
-        [TestMethod]
         public void FetchAllOrders_NoOrderdsInDatabase_NoneOrdersAreReturned()
         {
             //Arrange
