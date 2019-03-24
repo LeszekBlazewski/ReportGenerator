@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="DatabaseTests.cs" />
     <Compile Include="OrderCreator.cs" />
+    <Compile Include="ParserCreator.cs" />
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

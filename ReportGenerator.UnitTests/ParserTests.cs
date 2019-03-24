@@ -9,100 +9,128 @@ namespace ReportGenerator.UnitTests
     public class ParserTests
     {
         [TestMethod]
-        public void GetRequestsFromJsonString_AllRequestsAreValid_RequestsAsOrdersAreReturned()
+        [DeploymentItem(".\\Properties\\CorrectJsonData.json", "Data")]
+        public void GetRequestsFromJsonFile_FileContainsFourValidRequests_FourRequestsAreReturned()
         {
             //Arrange
-            string json = @"{
-                        'requests': [
-                        {
-                            'clientId': '1',
-                            'requestId': 1,
-                            'name': 'Bułka',
-                            'quantity': 1,
-                            'price': 10.00
-                         },
-                         {
-                             'clientId': '1',
-                             'requestId': 2,
-                             'name': 'Chleb',
-                             'quantity': 2,
-                             'price': 15.00
-                          }
-                         ]
-                        }";
-   
-            var parserFactory = new ParserFactory();
-            var jsonParser = parserFactory.CreateParser(ParserFactory.ParserSort.JSONParser);
+            var jsonParser = ParserCreator.GetParser(ParserFactory.ParserSort.JSONParser);
+            string jsonFilePath = @"Data\CorrectJsonData.json";
 
             //Action
-            ((JSONParser)jsonParser).ValidateJsonSchema(json);
-            List<Order> orders = ((JSONParser)jsonParser).GetOrders();
+            List<Order> orders = jsonParser.GetOrdersFromFile(jsonFilePath);
+            List<string> errors = ((Parser)jsonParser).GetErrorMessages();
 
             //Assert
-            Assert.AreEqual(2, orders.Count);
+            Assert.AreEqual(4, orders.Count);
+            Assert.AreEqual(0, errors.Count);
         }
 
         [TestMethod]
-        public void GetRequestsFromJsonString_ClientIdTagMissing_OneRequestIsReturned()
+        [DeploymentItem(".\\Properties\\MissingTagJsonData.json", "Data")]
+        public void GetRequestsFromJsonFile_FileContainsOneValidRequest_ThreeJsonObjectAreMissingTags_OneRequestIsReturned()
         {
             //Arrange
-            string json = @"{
-                        'requests': [
-                        {
-                            'requestId': 1,
-                            'name': 'Bułka',
-                            'quantity': 1,
-                            'price': 10.00
-                         },
-                         {
-                             'clientId': '1',
-                             'requestId': 2,
-                             'name': 'Chleb',
-                             'quantity': 2,
-                             'price': 15.00
-                          }
-                         ]
-                        }";
+            var jsonParser = ParserCreator.GetParser(ParserFactory.ParserSort.JSONParser);
+            string jsonFilePath = @"Data\MissingTagJsonData.json";
 
-            var parserFactory = new ParserFactory();
-            var jsonParser = parserFactory.CreateParser(ParserFactory.ParserSort.JSONParser);
 
             //Action
-            ((JSONParser)jsonParser).ValidateJsonSchema(json);
-            List<Order> orders = ((JSONParser)jsonParser).GetOrders();
+
+            List<Order> orders = jsonParser.GetOrdersFromFile(jsonFilePath);
             IList<string> errorMessages = ((JSONParser)jsonParser).GetErrorMessages();
 
             //Assert
             Assert.AreEqual(1, orders.Count);
-            Assert.AreEqual(1, errorMessages.Count);
+            Assert.AreEqual(3, errorMessages.Count);
+        }
+
+        [TestMethod]
+        [DeploymentItem(".\\Properties\\CLientIdAndRequestNameUnvalid.json", "Data")]
+        public void GetRequestsFromJsonFile_FileContainsOneValidRequests_ThreeJsonObjectProperitesAreUnvalid_OneRequestIsReturned()
+        {
+            //Arrange
+            var jsonParser = ParserCreator.GetParser(ParserFactory.ParserSort.JSONParser);
+            string jsonFilePath = @"Data\CLientIdAndRequestNameUnvalid.json";
+
+            //Action
+
+            List<Order> orders = jsonParser.GetOrdersFromFile(jsonFilePath);
+            IList<string> errorMessages = ((JSONParser)jsonParser).GetErrorMessages();
+
+            //Assert
+            Assert.AreEqual(1, orders.Count);
+            Assert.AreEqual(3, errorMessages.Count);
         }
 
         [TestMethod]
         [DeploymentItem(".\\Properties\\CorrectXmlData.xml","Data")]
         [DeploymentItem(".\\Properties\\xml_Schema.xsd","Properties")]
-        public void GetRequestsFromXMLFile_AllRequestsAreValid_TwoRequestAreReturned()
+        public void GetRequestsFromXMLFile_FileContainsFourValidRequests_FourRequestAreReturned()
         {
             //Arrange
-            var parserFactory = new ParserFactory();
-            var xmlParser = parserFactory.CreateParser(ParserFactory.ParserSort.XMLParser);
+            var xmlParser = ParserCreator.GetParser(ParserFactory.ParserSort.XMLParser);
             string xmlFilePath = @"Data\CorrectXmlData.xml";
+
             //Action
+
              List<Order> orders = xmlParser.GetOrdersFromFile(xmlFilePath);
              IList<string> errorMessages = ((XMLParser)xmlParser).GetErrorMessages();
 
             //Assert
-            Assert.AreEqual(2, orders.Count);
+
+            Assert.AreEqual(4, orders.Count);
             Assert.AreEqual(0, errorMessages.Count);
          }
 
         [TestMethod]
-        [DeploymentItem(".\\Properties\\CorrectCsvData.csv", "Data")]
-        public void GetRequestsFromCSVFile_AllRequestsAreValid_TwoRequestAreReturned()
+        [DeploymentItem(".\\Properties\\MissingTagXmlData.xml", "Data")]
+        [DeploymentItem(".\\Properties\\xml_Schema.xsd", "Properties")]
+        public void GetRequestsFromXMLFile_FileContainsOneValidRequest_FourRequestsAreMissingTags_OneRequestIsReturned()
         {
             //Arrange
-            var parserFactory = new ParserFactory();
-            var csvParser = parserFactory.CreateParser(ParserFactory.ParserSort.CSVParser);
+
+            var xmlParser = ParserCreator.GetParser(ParserFactory.ParserSort.XMLParser);
+            string xmlFilePath = @"Data\MissingTagXmlData.xml";
+
+            //Action
+
+            List<Order> orders = xmlParser.GetOrdersFromFile(xmlFilePath);
+            IList<string> errorMessages = ((XMLParser)xmlParser).GetErrorMessages();
+
+            //Assert
+            Assert.AreEqual(1, orders.Count);
+            Assert.AreEqual(4, errorMessages.Count);
+        }
+
+        [TestMethod]
+        [DeploymentItem(".\\Properties\\ClientIdAndRequestNameUnvalid.xml", "Data")]
+        [DeploymentItem(".\\Properties\\xml_Schema.xsd", "Properties")]
+        public void GetRequestsFromXMLFile_FileContainsOneValidRequest_ClientIdAndRequestNameAreUnvalid_OneRequestIsReturned()
+        {
+            //Arrange
+
+            var xmlParser = ParserCreator.GetParser(ParserFactory.ParserSort.XMLParser);
+            string xmlFilePath = @"Data\ClientIdAndRequestNameUnvalid.xml";
+
+            //Action
+
+            List<Order> orders = xmlParser.GetOrdersFromFile(xmlFilePath);
+            IList<string> errorMessages = ((XMLParser)xmlParser).GetErrorMessages();
+
+            //Assert
+            Assert.AreEqual(1, orders.Count);
+            Assert.AreEqual(3, errorMessages.Count);
+        }
+
+
+        [TestMethod]
+        [DeploymentItem(".\\Properties\\CorrectCsvData.csv", "Data")]
+        public void GetRequestsFromCSVFile_AllRequestsAreValid_FourRequestAreReturned()
+        {
+            //Arrange
+            var csvParser = ParserCreator.GetParser(ParserFactory.ParserSort.CSVParser);
             string csvFilePath = @"Data\CorrectCsvData.csv";
+
             //Action
             List<Order> orders = csvParser.GetOrdersFromFile(csvFilePath);
             IList<string> errorMessages = ((CSVParser)csvParser).GetErrorMessages();
@@ -110,6 +138,38 @@ namespace ReportGenerator.UnitTests
             //Assert
             Assert.AreEqual(4, orders.Count);
             Assert.AreEqual(0, errorMessages.Count);
+        }
+
+        [TestMethod]
+        [DeploymentItem(".\\Properties\\MissingTagCsvData.csv", "Data")]
+        public void GetRequestsFromCSVFile_ThreeRowsAreMissingValue_OneRequestIsReturned()
+        {
+            //Arrange
+            var csvParser = ParserCreator.GetParser(ParserFactory.ParserSort.CSVParser);
+            string csvFilePath = @"Data\MissingTagCsvData.csv";
+            //Action
+            List<Order> orders = csvParser.GetOrdersFromFile(csvFilePath);
+            IList<string> errorMessages = ((CSVParser)csvParser).GetErrorMessages();
+
+            //Assert
+            Assert.AreEqual(1, orders.Count);
+            Assert.AreEqual(3, errorMessages.Count);
+        }
+
+        [TestMethod]
+        [DeploymentItem(".\\Properties\\CLientIdAndRequestNameUnvalid.csv", "Data")]
+        public void GetRequestsFromCSVFile_ThreeRowsHaveInvalidValue_OneRequestIsReturned()
+        {
+            //Arrange
+            var csvParser = ParserCreator.GetParser(ParserFactory.ParserSort.CSVParser);
+            string csvFilePath = @"Data\CLientIdAndRequestNameUnvalid.csv";
+            //Action
+            List<Order> orders = csvParser.GetOrdersFromFile(csvFilePath);
+            IList<string> errorMessages = ((CSVParser)csvParser).GetErrorMessages();
+
+            //Assert
+            Assert.AreEqual(1, orders.Count);
+            Assert.AreEqual(3, errorMessages.Count);
         }
     }
 }

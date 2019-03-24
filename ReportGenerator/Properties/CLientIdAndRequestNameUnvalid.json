@@ -1,0 +1,32 @@
+﻿{
+  "requests": [
+    {
+      "clientId": "oystb1w",
+      "requestId": "1",
+      "name": "Bułka",
+      "quantity": "1",
+      "price": "10.00"
+    },
+    {
+      "clientId": "1 ser2",
+      "requestId": "2",
+      "name": "Chleb",
+      "quantity": "2",
+      "price": "15.00"
+    },
+    {
+      "clientId": "1",
+      "requestId": "2",
+      "name": "oG8oZ2vDWppmsYDyP4DkHfLdx6dMasdUqrA097mUr9RgRHp24pm95xWNNTU9U5F2JF8RpiIXSHtThI3FXlihAArA7xhxSAKx5Zpy9oLlraoW1KDFJutn37ECia21BO7K6iiw27iFdteQL5Jg33GefWSOm6ue7V9oKIFh3UrZu1Fx3Rh21MJk6hABQ9bCOp6Ll4UYw27O46Yhf9kYJGm45RXJ5ln36NergszUhr9Rn8vrmcqfsgYfW67oq8NZXkv4",
+      "quantity": "5",
+      "price": "15.00"
+    },
+    {
+      "clientId": "22456",
+      "requestId": "1",
+      "name": "Chleb masło",
+      "quantity": "1",
+      "price": "10.00"
+    }
+  ]
+}

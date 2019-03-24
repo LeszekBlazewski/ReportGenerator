@@ -118,8 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CLientIdAndRequestNameUnvalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>CLientIdAndRequestNameUnvalid.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="CorrectCsvData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>CorrectCsvData.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="CorrectJsonData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>CorrectJsonData.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="CorrectXmlData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>CorrectXmlData.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
@@ -127,7 +133,19 @@
   <data name="json_OrderSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>json-OrderSchema.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="MissingTagJsonData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MissingTagJsonData.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="xml_Schema" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xml_Schema.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="MissingTagXmlData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MissingTagXmlData.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="CLientIdAndRequestNameUnvalid1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>CLientIdAndRequestNameUnvalid.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="MissingTagCsvData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>MissingTagCsvData.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

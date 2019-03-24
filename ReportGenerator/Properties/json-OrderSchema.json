@@ -13,7 +13,7 @@
     },
 
     "requestId": {
-      "type": "number"
+      "type": "string"
     },
 
     "name": {
@@ -23,12 +23,12 @@
     },
 
     "quantity": {
-      "type": "integer",
+      "type": "string",
       "minimum": 0
     },
 
     "price": {
-      "type": "number",
+      "type": "string",
       "minimum": 0
     }
   },
