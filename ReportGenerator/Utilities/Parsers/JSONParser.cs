@@ -7,10 +7,6 @@ namespace ReportGenerator.Utilities.Parsers
 {
     class JSONParser:Parser
     {
-        private List<string> errorMessages = new List<string>();
-
-        public List<string> GetErrorMessages() => errorMessages;
-
         public override List<Order> GetOrdersFromFile(string filePath)
         {
             using (StreamReader reader = new StreamReader(filePath))
@@ -25,7 +21,7 @@ namespace ReportGenerator.Utilities.Parsers
 
         public void ValidateJsonSchema(string json)
         {
-            JSchema schema = JSchema.Parse(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Utilities\\json-OrderSchema.json"));  // json-OrderSchema.json is always copied to output directory
+            JSchema schema = JSchema.Parse(File.ReadAllText(Directory.GetCurrentDirectory() + "\\Utilities\\json-OrderSchema.json"));  // json-OrderSchema.json is always copied durning build to output directory
 
             JObject requests = JObject.Parse(json);
 
