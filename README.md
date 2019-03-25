@@ -1,13 +1,22 @@
 # ReportGenerator
+
 Project made as an recruitment task for core services bootcamp.
+
+## Użyte wzorce projektowe
+
+### Mvc
+
+### Factory pattern
+
+
+
 
 ## DEPENDENCIES 
 
-# In memory database
+### [Nmemory](https://nmemory.net/download)
 
-https://nmemory.net/download
+### [BindingListView](http://blw.sourceforge.net/)
 
+### [JSON.NET](https://www.newtonsoft.com/json)
 
-# BindingList in order to sort dataGridView (PM)
-
-Install-Package Equin.ApplicationFramework.BindingListView -Version 1.4.5222.35545 
+### [CSVHelper](https://joshclose.github.io/CsvHelper/)
