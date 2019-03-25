@@ -116,7 +116,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\CLientIdAndRequestNameUnvalid.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
