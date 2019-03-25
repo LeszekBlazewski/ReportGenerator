@@ -290,6 +290,36 @@ namespace ReportGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {
+        ///  &quot;$schema&quot;: &quot;http://json-schema.org/draft-04/schema&quot;,
+        ///  &quot;title&quot;: &quot;JSON Schema for Request based on basic schema&quot;,
+        ///  &quot;description&quot;: &quot;Better version of schema, but the json file must be different also.&quot;,
+        ///
+        ///  &quot;type&quot;: &quot;object&quot;,
+        ///  &quot;properties&quot;: {
+        ///
+        ///    &quot;clientId&quot;: {
+        ///      &quot;type&quot;: &quot;string&quot;,
+        ///      &quot;maxLength&quot;: 6,
+        ///      &quot;pattern&quot;: &quot;^[\\p{L}0-9]*$&quot;
+        ///    },
+        ///
+        ///    &quot;requestId&quot;: {
+        ///      &quot;type&quot;: &quot;number&quot;
+        ///    },
+        ///
+        ///    &quot;name&quot;: {
+        ///      &quot;type&quot;: &quot;string&quot;,
+        ///      &quot;maxLength&quot;: 255,
+        ///      &quot;pattern&quot;: &quot;^[\\p{L}0- [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string My_version_json_schema {
+            get {
+                return ResourceManager.GetString("My_version_json_schema", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
         ///  &lt;xs:element name=&quot;requests&quot;&gt;

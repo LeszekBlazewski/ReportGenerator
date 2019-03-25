@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "JSON Schema for Request based on basic schema",
+  "description": "Better version of schema, but the json file must be different also.",
+
+  "type": "object",
+  "properties": {
+
+    "clientId": {
+      "type": "string",
+      "maxLength": 6,
+      "pattern": "^[\\p{L}0-9]*$"
+    },
+
+    "requestId": {
+      "type": "number"
+    },
+
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "pattern": "^[\\p{L}0-9 ]*$"
+    },
+
+    "quantity": {
+      "type": "integer",
+      "minimum": 0
+    },
+
+    "price": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "required": [ "clientId", "requestId", "name", "quantity", "price" ]
+}
