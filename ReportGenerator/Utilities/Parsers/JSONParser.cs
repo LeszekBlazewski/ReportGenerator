@@ -27,20 +27,28 @@ namespace ReportGenerator.Utilities.Parsers
 
             IList<string> tempErrors = new List<string>();
 
-            foreach (var request in requests["requests"])
+            try
             {
-                if (request.IsValid(schema, out tempErrors))
+                foreach (var request in requests["requests"])
                 {
-                    orders.Add(new Order
+                    if (request.IsValid(schema, out tempErrors))
                     {
-                        ClientId = request["clientId"].Value<string>(),
-                        RequestId = request["requestId"].Value<long>(),
-                        Name = request["name"].Value<string>(),
-                        Quantity = request["quantity"].Value<int>(),
-                        Price = request["price"].Value<decimal>()
-                    });
+                        orders.Add(new Order
+                        {
+                            ClientId = request["clientId"].Value<string>(),
+                            RequestId = request["requestId"].Value<long>(),
+                            Name = request["name"].Value<string>(),
+                            Quantity = request["quantity"].Value<int>(),
+                            Price = request["price"].Value<decimal>()
+                        });
+                    }
+                    errorMessages.AddRange(tempErrors);
                 }
-                errorMessages.AddRange(tempErrors);
+            }
+            catch (System.NullReferenceException)
+            {   
+                // this exception occurs when some tries to read json file which does not have requests field
+                errorMessages.Add("Loaded json file was unvalid !");
             }
         }
     }
