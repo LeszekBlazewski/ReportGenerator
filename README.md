@@ -4,7 +4,7 @@ Project made as an recruitment task for core services bootcamp.
 
 ## :warning:Komipilacja:warning:
 
-**Ze względu na użyte zależności przed kompilacją należy przwrócić pakiety (nuget restore) dla obu projektów zarówno ReportGenerator.cproj jak i ReportGenerator.UnitTests.csproj.**
+**Ze względu na użyte zależności przed kompilacją należy przwrócić pakiety (nuget restore) dla obu projektów zarówno ReportGenerator.csproj jak i ReportGenerator.UnitTests.csproj.**
 
 Pomimo automatycznego budowania pakietów w trakcie budowy solucji czasami nie wszytkie zależności są pobierane do projektu.
 
