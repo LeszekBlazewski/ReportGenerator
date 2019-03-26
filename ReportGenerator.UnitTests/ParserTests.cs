@@ -147,6 +147,7 @@ namespace ReportGenerator.UnitTests
             //Arrange
             var csvParser = ParserCreator.GetParser(ParserFactory.ParserSort.CSVParser);
             string csvFilePath = @"Data\MissingTagCsvData.csv";
+
             //Action
             List<Order> orders = csvParser.GetOrdersFromFile(csvFilePath);
             IList<string> errorMessages = ((CSVParser)csvParser).GetErrorMessages();
@@ -163,6 +164,7 @@ namespace ReportGenerator.UnitTests
             //Arrange
             var csvParser = ParserCreator.GetParser(ParserFactory.ParserSort.CSVParser);
             string csvFilePath = @"Data\CLientIdAndRequestNameUnvalid.csv";
+
             //Action
             List<Order> orders = csvParser.GetOrdersFromFile(csvFilePath);
             IList<string> errorMessages = ((CSVParser)csvParser).GetErrorMessages();

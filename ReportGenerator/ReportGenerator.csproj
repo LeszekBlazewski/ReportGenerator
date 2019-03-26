@@ -98,7 +98,6 @@
     <Compile Include="Utilities\Parsers\XMLParser.cs" />
     <Compile Include="Utilities\ReportResult.cs" />
     <Compile Include="Utilities\ReportTypes.cs" />
-    <Compile Include="Utilities\Request.cs" />
     <Compile Include="ViewModel\OrderViewModel.cs" />
     <Compile Include="Views\MainView.cs">
       <SubType>Form</SubType>
