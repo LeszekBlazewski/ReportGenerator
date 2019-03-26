@@ -2,6 +2,12 @@
 
 Project made as an recruitment task for core services bootcamp.
 
+## :warning:Komipilacja:warning:
+
+**Ze względu na użyte zależności przed kompilacją należy przwrócić pakiety (nuget restore) dla obu projektów zarówno ReportGenerator.cproj jak i ReportGenerator.UnitTests.csproj.**
+
+Pomimo automatycznego budowania pakietów w trakcie budowy solucji czasami nie wszytkie zależności są pobierane do projektu.
+
 ##  Wstęp
 
 Poniższy dokument jest podstawową dokumentacją całego projektu. Całe zadanie zostało zrealizowane zgodnie z wymaganiami zawartymi w przesłanym dokumencie. Projekt został zrealizowany w konwencji TDD, dzięki czemu każda z kluczowych funkcjonalności została przetestowana. Poniżej znajduje się instrukcja obsługi aplikacji wraz z krótkimi opisami danych implementacji.
