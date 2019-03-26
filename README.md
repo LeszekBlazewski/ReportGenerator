@@ -2,6 +2,8 @@
 
 Project made as an recruitment task for core services bootcamp.
 
+The whole specification of the project can be found here [`Task_description.pdf`](/Task_description.pdf)
+
 ## :warning:Komipilacja:warning:
 
 **Ze względu na użyte zależności przed kompilacją należy przwrócić pakiety (nuget restore) dla obu projektów zarówno ReportGenerator.csproj jak i ReportGenerator.UnitTests.csproj.**
